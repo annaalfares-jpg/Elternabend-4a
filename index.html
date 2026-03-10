@@ -1,0 +1,839 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elternabend Klasse 4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+    	display: none;
+   	 width: 90%;
+    	max-width: 1200px;
+   	 height: 80vh;  /* ← Von 85vh auf 80vh reduziert */
+   	 max-height: 90vh;  /* ← Neue Zeile hinzufügen */
+   	 background: white;
+
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px 50px;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide h1 {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .slide h2 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .slide h3 {
+            font-size: 1.8em;
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.3em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .slide ul {
+            margin-left: 40px;
+            margin-bottom: 20px;
+        }
+
+        .slide li {
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .date-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: #155724;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        	.controls button {
+    		padding: 18px 35px;  /* ← Größer für Touch */
+    		font-size: 1.2em;    /* ← Etwas größer */
+   		 min-width: 120px;    /* ← Neue Zeile */
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .controls button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .content-scroll {
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .content-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 1.2em;
+        }
+
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.1em;
+        }
+
+        table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        strong {
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Titelseite -->
+        <div class="slide active">
+            <div class="content-scroll">
+                <h1>🎓 2. Klassenpflegschaftssitzung</h1>
+                <h1>Klasse 4b</h1>
+                <div style="text-align: center; margin-top: 80px;">
+                    <p style="font-size: 2em; color: #667eea; margin-bottom: 40px;">Herzlich willkommen!</p>
+                    <p style="font-size: 1.5em; color: #666;">Schuljahr 2025/2026</p>
+                </div>
+                <div class="highlight-box" style="margin-top: 30;">
+                    <p style="text-align: center; font-size: 1.4em;">
+                        <strong>Tagesordnung:</strong><br>
+                        1. Klassenfahrt nach Wiehl<br>
+                        2. Radfahrausbildung<br>
+                        3. Sexualkunde im Sachunterricht<br>
+						4. WhatsApp-Nutzung <br>
+                        5. Abschiedsfeier<br>
+						6. Verschiedenes
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Klassenfahrt Übersicht -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>🚌 Klassenfahrt nach Wiehl</h2>
+                <div class="date-box">
+                    📅 27.05.2026 bis 29.05.2026
+                </div>
+                <div class="highlight-box">
+                    <h3>📍 Jugendherberge Wiehl</h3>
+                    <p><strong>Adresse:</strong> An der Krähenhardt 6, 51674 Wiehl</p>
+                    <p><strong>Telefon (nur Notfälle):</strong> 02262-93410</p>
+                    <p><strong>Website:</strong> www.wiehl.jugendherberge.de</p>
+                </div>
+                <div class="grid-2" style="margin-top: 30px;">
+                    <div class="info-box">
+                        <p><strong>🕗 Abfahrt:</strong></p>
+                        <p>Treffen: 8:30 Uhr auf dem Schulhof</p>
+                        <p>Abfahrt: 9:00 Uhr</p>
+                    </div>
+                    <div class="info-box">
+                        <p><strong>🕑 Rückkehr:</strong></p>
+                        <p>Abfahrt Wiehl: 13:30 Uhr</p>
+                        <p>Ankunft Schulhof: ca. 14:30 Uhr</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Programm Klassenfahrt -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>🎯 Programm: Die wilde Tarantelbande</h2>
+                <h3>Abenteuer für das Klassenteam</h3>
+                <p>Der berüchtigten Wiehler Tarantelbande auf der Spur wird aus unserer Klasse eine waschechte Klassenbande mit allem, was dazugehört:</p>
+                <ul>
+                    <li>🎭 Spannende Abenteuer</li>
+                    <li>🤝 Teamspiele</li>
+                    <li>🏆 Bandenolympiade</li>
+                    <li>👕 T-Shirts mit Klassen-Logo gestalten</li>
+                    <li>🔥 Lagerfeuer mit Marshmallow-Rösten</li>
+                    <li>🗺️ Team-Rallye</li>
+                    <li>💪 Herausforderungen meistern</li>
+                    <li>😄 Jede Menge Spaß</li>
+                </ul>
+                <div class="highlight-box">
+                    <p><strong>👥 Programmbetreuung:</strong></p>
+                    <p>An 1,5 Tagen durch eine Trainerin von TEAMScouts</p>
+                    <p><strong>🦇 Besuch der Wiehler Tropfsteinhöhle</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Wichtige Hinweise Klassenfahrt -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>⚠️ Wichtige Hinweise zur Klassenfahrt</h2>
+                <div class="info-box">
+                    <h3>💰 Taschengeld</h3>
+                    <p>5-10 Euro als <strong>Münzgeld</strong> in einer Geldbörse mitgeben</p>
+                    <p>Kiosk vorhanden: Postkarten, Getränke, Eis, Süßwaren, Souvenirartikel</p>
+                </div>
+                <div class="highlight-box">
+                    <h3>🚫 Bitte zu Hause lassen:</h3>
+                    <ul>
+                        <li>Elektronische Spielgeräte</li>
+                        <li>Handys & Smartwatches</li>
+                        <li>Taschenmesser</li>
+                    </ul>
+                    <p>Fotoapparate auf <strong>eigenes Risiko</strong> erlaubt</p>
+                </div>
+                <div class="info-box">
+                    <h3>👕 Wichtig mitbringen:</h3>
+                    <ul>
+                        <li>🎨 Ein <strong>weißes T-Shirt</strong> zum Bemalen (Klassenlogo)</li>
+                        <li>🪩 Ein <strong>Disco-Outfit</strong> für den Discoabend</li>
+                        <li>🎲 Gesellschaftsspiele (mit Namen kennzeichnen)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Praktische Hinweise -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>📝 Praktische Hinweise</h2>
+                <div class="highlight-box">
+                    <h3>🛏️ Übernachtung</h3>
+                    <ul>
+                        <li><strong>Bettwäsche:</strong> wird gestellt, kann aber mitgebracht werden (Allergiker)</li>
+                        <li><strong>Bitte üben:</strong> Gemeinsam mit dem Kind das Bettbeziehen üben!</li>
+                        <li><strong>Zimmerbelegung:</strong> wird 1-2 Wochen vor Abreise bekannt gegeben</li>
+                        <li><strong>Zimmerschlüssel:</strong> werden eingesammelt und Zimmer abgeschlossen</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h3>👔 Kleidung</h3>
+                    <ul>
+                        <li>Nur Kleidung, die <strong>schmutzig und nass</strong> werden darf</li>
+                        <li>Alle Kleidungsstücke mit <strong>Namen kennzeichnen</strong></li>
+                        <li>Tasche <strong>gemeinsam mit dem Kind packen</strong></li>
+                        <li>Süßigkeiten dürfen <strong>nicht auf den Zimmern</strong> verzehrt werden</li>
+                    </ul>
+                </div>
+                <div class="date-box" style="background: #fff3cd; color: #856404; border-color: #ffc107;">
+                    ⚕️ Keine Wundbehandlung/Zecken durch Lehrkräfte<br>
+                    Bei Bedarf wird nach Rücksprache ein Arzt aufgesucht
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Dokumente Klassenfahrt -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>📄 Erforderliche Dokumente</h2>
+                <div class="highlight-box">
+                    <h3>Bitte abgeben (1 Tag vorher oder am Abreisemorgen):</h3>
+                    <ul>
+                        <li>🏥 <strong>Krankenversicherungskarte</strong> (im verschlossenen, beschrifteten Umschlag)</li>
+                        <li>💉 <strong>Kopie des Impfausweises</strong> (im verschlossenen, beschrifteten Umschlag)</li>
+                        <li>💊 <strong>Notwendige Medikamente</strong> mit Namen und genauer Dosierungsangabe</li>
+                        <li>✍️ <strong>Unterschriebene Elternerklärung</strong> (siehe Anhang)</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h3>📱 Kommunikation</h3>
+                    <p>Bei Ankunft erfolgt:</p>
+                    <ul>
+                        <li>Anruf in der Schule</li>
+                        <li>Nachricht an alle Eltern über <strong>sdui</strong></li>
+                    </ul>
+                </div>
+                <div class="date-box" style="font-size: 1.2em;">
+                    ✅ Packliste und Elternerklärung im Anhang des Dokuments
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Radfahrausbildung Übersicht -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>🚴 Radfahrausbildung</h2>
+                <div class="date-box">
+                    📅 Prüfungstag: Montag, 11. Mai 2026
+                </div>
+                <h3>Vorbereitung ab 13. April 2026</h3>
+                <div class="grid-2">
+                    <div class="highlight-box">
+                        <h3>📚 Theoretischer Teil</h3>
+                        <ul>
+                            <li>Verkehrsschilder</li>
+                            <li>Linksabbiegen</li>
+                            <li>Verkehrssicheres Fahrrad</li>
+                            <li>Theoretische Prüfung</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box">
+                        <h3>🏫 Praktischer Teil</h3>
+                        <ul>
+                            <li>Übungen auf dem Schulhof</li>
+                            <li>Anfahren</li>
+                            <li>Linksabbiegen</li>
+                            <li>Praktische Prüfung mit Polizei</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="info-box" style="margin-top: 30px;">
+                    <p><strong>📖 Materialkosten:</strong> Heft "Die Radfahrausbildung" ca. 4,20 Euro pro Kind</p>
+                    <p><strong>Bitte in den nächsten Tagen mitgeben!</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Radfahrausbildung Voraussetzungen -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>✅ Voraussetzungen & Termine</h2>
+                <div class="highlight-box">
+                    <h3>Teilnahmevoraussetzungen:</h3>
+                    <ul>
+                        <li>🚲 <strong>Verkehrssicheres Fahrrad</strong></li>
+                        <li>🪖 <strong>Fahrradhelm</strong> (von Eltern richtig eingestellt)</li>
+                        <li>✍️ <strong>Unterschriebene Einverständniserklärung</strong></li>
+                        <li>🤸 <strong>Motorische Fähigkeiten</strong> des Kindes</li>
+                    </ul>
+                    <p style="color: #dc3545; font-weight: bold; margin-top: 15px;">⚠️ Bei großer Unsicherheit können Kinder von der Prüfung ausgeschlossen werden (Gefährdung des Straßenverkehrs)</p>
+                </div>
+                <div class="date-box" style="background: #d4edda; border-color: #28a745;">
+                    🔧 Dienstag, 05.05.2026: Fahrradwerkstatt kommt zur Schule<br>
+                    Fahrraden werden für kleines Geld verkehrssicher gemacht
+                </div>
+                <div class="info-box">
+                    <p><strong>📝 Bitte mitgeben nach den Osterferien:</strong></p>
+                    <ul>
+                        <li>Verkehrspass</li>
+                        <li>Einverständniserklärung (unterschrieben)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Elternhilfe gesucht -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>🙋 Dringend: Elternhilfe benötigt!</h2>
+                <div class="date-box" style="background: #f8d7da; border-color: #dc3545; color: #721c24;">
+                    ⚠️ Ohne Ihre Hilfe kann die Radfahrausbildung nicht stattfinden!
+                </div>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <h3>👥 Wir benötigen am Montag, 11.05.2026:</h3>
+                    <p style="font-size: 1.5em; margin: 20px 0;"><strong>7 Streckenposten</strong></p>
+                    <p><strong>Einsatzzeit:</strong> 10:00 Uhr bis 13:20 Uhr</p>
+                    <p>Aufgabe: Sich entlang der Strecke postieren und die Kinder beobachten</p>
+                </div>
+                <div class="info-box" style="margin-top: 30px;">
+                    <h3>🚴 Zusätzlich: 1 Person mit eigenem Fahrrad</h3>
+                    <p><strong>Anwesenheit:</strong> ab der 2. Stunde</p>
+                    <p>Aufgabe: Mit dem Fahrrad die Strecke mitfahren</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Position</th>
+                            <th>Name</th>
+                        </tr>
+                        <tr><td>Streckenposten 1</td><td>_________________</td></tr>
+                        <tr><td>Streckenposten 2</td><td>_________________</td></tr>
+                        <tr><td>Streckenposten 3</td><td>_________________</td></tr>
+                        <tr><td>Streckenposten 4</td><td>_________________</td></tr>
+                        <tr><td>Streckenposten 5</td><td>_________________</td></tr>
+                        <tr><td>Streckenposten 6</td><td>_________________</td></tr>
+                        <tr><td>Streckenposten 7</td><td>_________________</td></tr>
+                        <tr><td>Fahrradbegleitung</td><td>_________________</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Prüfungstag Ablauf -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>📋 Ablauf Prüfungstag 11.05.2026</h2>
+                <p style="color: #dc3545; font-weight: bold;">⏰ Dauer: ca. 5-6 Schulstunden</p>
+                <div class="highlight-box">
+                    <h3>1. Stunde</h3>
+                    <ul>
+                        <li>Tagesablauf wird geschildert</li>
+                        <li>Theoretisches Abfragen</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>2. Stunde + Pause</h3>
+                    <ul>
+                        <li>Kontrolle der Fahrräder (Bremsen, Plakette)</li>
+                        <li>Aufteilung in 2 Gruppen</li>
+                        <li>Gruppe 1: Strecke abfahren mit Erklärungen</li>
+                        <li>Gruppe 2: Übungen auf dem Schulhof</li>
+                        <li>Dann Tausch</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>3. und 4. Stunde</h3>
+                    <ul>
+                        <li>Einweisung der Eltern an den Streckenposten</li>
+                        <li>Kinder fahren die Strecke mehrfach alleine</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <h3>5. und 6. Stunde</h3>
+                    <ul>
+                        <li>Abschlussgespräch in der Klasse</li>
+                        <li>Aushändigung des Verkehrspasses</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Sexualkunde -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>👨‍👩‍👧‍👦 Sexualkunde im Sachunterricht</h2>
+                <div class="date-box">
+                    📅 Start: In den Wochen nach der Klassenfahrt
+                </div>
+                <div class="info-box">
+                    <p style="font-size: 1.2em; margin-bottom: 20px;">Die Einheit in der Schule <strong>ersetzt nicht</strong> die Aufklärungsarbeit der Eltern.</p>
+                    <p style="font-weight: bold;">Bitte nehmen Sie die Fragen der Kinder ernst und kommen Sie mit ihnen ins Gespräch.</p>
+                </div>
+                <h3>Themen im Unterricht:</h3>
+                <ul>
+                    <li>Regeln für den respektvollen Umgang mit dem Thema</li>
+                    <li>Gefühle und Körperwahrnehmung</li>
+                    <li>Geschlechterrollen und Stereotype</li>
+                    <li>Pubertät – Veränderungen bei Mädchen und Jungen</li>
+                    <li>Weibliche und männliche Geschlechtsorgane</li>
+                    <li>Weiblicher Zyklus und Menstruation</li>
+                    <li>Kinderwunsch und Verhütung</li>
+                    <li>Wie ein Baby entsteht</li>
+                    <li>Schwangerschaft und Geburt</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: Sexualkunde Referentin -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>👥 Externe Referentin</h2>
+                <div class="highlight-box">
+                    <h3>Geplant: Referentin der Erziehungsberatung</h3>
+                    <p style="font-size: 1.3em; margin: 20px 0;">An einem Vormittag wird eine Fachkraft zu uns kommen:</p>
+                    <div class="grid-2">
+                        <div class="info-box">
+                            <h3>👧 Mädchengruppe</h3>
+                            <p>2 Stunden nur mit den Mädchen</p>
+                            <p>Geschlechtsspezifische Themen</p>
+                        </div>
+                        <div class="info-box">
+                            <h3>👦 Jungengruppe</h3>
+                            <p>2 Stunden nur mit den Jungen</p>
+                            <p>Geschlechtsspezifische Themen</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="date-box" style="background: #d4edda; border-color: #28a745; color: #155724; margin-top: 30px;">
+                    📂 Ein Ordner mit den entsprechenden Unterrichtsinhalten kann gerne eingesehen werden.<br><br>
+                    💬 Bei Fragen sprechen Sie mich gerne an!
+                </div>
+            </div>
+        </div>
+
+  	        <!-- Slide 13: WhatsApp & soziale Medien (Info) -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>📱 WhatsApp & soziale Medien</h2>
+
+                <div class="info-box">
+                    <p style="font-size: 1.3em;">
+                        ⚠️ WhatsApp ist erst <strong>ab 16 Jahren</strong> erlaubt!
+                    </p>
+                </div>
+
+                <h3>Aktuelle Probleme 🚨</h3>
+                <ul>
+                    <li>💬 Vermehrte Streitigkeiten durch Chatgruppen</li>
+                    <li>⚡ Konflikte und Missverständnisse</li>
+                    <li>📵 Unkontrollierte Kommunikation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 14: Unsere Empfehlungen -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>👨‍👩‍👧‍👦 Unsere Empfehlungen</h2>
+
+                <div class="highlight-box">
+                    <ul>
+                        <li>🚫 Kinder-Chatgruppen vermeiden</li>
+                        <li>👀 Mediennutzung aktiv begleiten</li>
+                        <li>📋 Klare Regeln vereinbaren</li>
+                        <li>💬 Konflikte direkt ansprechen</li>
+                        <li>📞 Bei Problemen: Bitte direkt mit uns Kontakt aufnehmen</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+	
+
+
+        <!-- Slide 15: Abschiedsfeier -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>🎉 Planung Abschied</h2>
+                <div class="date-box">
+                    📅 Abschiedsfeier mit Übernachtung: 
+                </div>
+                <h3 style="margin-top: 40px;">Zu klären:</h3>
+                <div class="highlight-box">
+                    <ul>
+                        <li>🎭 <strong>Programm am Abend</strong> – Was möchten die Kinder machen?</li>
+                        <li>🥐 <strong>Organisation Frühstück</strong> – Wer übernimmt was?</li>
+                        <li>👥 <strong>Organisationsteam</strong> – Wer möchte das bestehende Team unterstützen?</li>
+                    </ul>
+                </div>
+                <h3 style="margin-top: 40px;">🎁 Abschiedsgeschenk an die Schule</h3>
+                <div class="info-box">
+                    <p>Traditionell überreichen die Viertklässler ein Abschiedsgeschenk an die Schule.</p>
+                    <p style="margin-top: 15px;"><strong>Ideen können in Absprache mit Frau Röhrig gesammelt werden.</strong></p>
+                    <p style="margin-top: 15px; font-style: italic;">Vorschlag aus dem Protokoll: Material für den Zirkuswagen</p>
+                </div>
+            </div>
+        </div>
+
+		<!-- Slide 16: Verschiedenes -->
+    <div class="slide">
+      <div class="content-scroll">
+        <h2>📌 Verschiedenes</h2>
+
+        <div class="highlight-box">
+          <h3>📚 Ausflug zur Thalia</h3>
+          <ul>
+            <li>Geplanter Klassenausflug zur Buchhandlung Thalia</li>
+            <li>Genauer Termin und Ablauf folgen über sdui</li>
+          </ul>
+        </div>
+
+        <div class="info-box">
+          <h3>🤒 Krankmeldungen über sdui</h3>
+          <ul>
+            <li>Krankmeldungen über sdui, neue Funktion "Abmeldung einsenden" nutzen </li>
+    
+          </ul>
+        </div>
+
+        <div class="highlight-box">
+          <h3>🗣️ Sonstiges</h3>
+          <ul>
+            <li>Rückfragen und Anregungen gerne im Anschluss</li>
+            <li>Individuelle Themen können auch per Nachricht geklärt werden</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+        <!-- Slide 17: Zusammenfassung -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h2>📝 Zusammenfassung & nächste Schritte</h2>
+                <div class="highlight-box">
+                    <h3>✅ Bitte zeitnah mitgeben:</h3>
+                    <ul>
+                        <li>💰 4,20 Euro für das Radfahrheft</li>
+                        <li>✍️ Einverständniserklärung Radfahrausbildung (unterschrieben)</li>
+                        <li>✍️ Elternerklärung Klassenfahrt (unterschrieben)</li>
+                    </ul>
+                </div>
+                <div class="info-box" style="margin-top: 30px;">
+                    <h3>📅 Nach den Osterferien mitgeben:</h3>
+                    <ul>
+                        <li>📔 Verkehrspass</li>
+                    </ul>
+                </div>
+                <div class="date-box" style="background: #f8d7da; border-color: #dc3545; color: #721c24; margin-top: 30px;">
+                    ⚠️ WICHTIG: Elternhilfe für Radfahrausbildung eintragen!<br>
+                    7 Streckenposten + 1 Fahrradbegleitung am 11.05.2026
+                </div>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <h3>📄 1 Tag vor Klassenfahrt abgeben:</h3>
+                    <ul>
+                        <li>🏥 Krankenversicherungskarte</li>
+                        <li>💉 Kopie Impfausweis</li>
+                        <li>💊 Medikamente (falls erforderlich)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Vielen Dank -->
+        <div class="slide">
+            <div class="content-scroll">
+                <h1 style="text-align: center; margin-top: 100px; font-size: 4em;">Vielen Dank!</h1>
+                <p style="text-align: center; font-size: 2em; color: #666; margin-top: 60px;">
+                    Für Ihre Aufmerksamkeit und Unterstützung! 
+                </p>
+                <div class="highlight-box" style="margin-top: 80px;">
+                    <p style="text-align: center; font-size: 1.4em;">
+                        <strong>Bei Fragen stehen wir gerne zur Verfügung!</strong>
+                    </p>
+                </div>
+                <p style="text-align: center; margin-top: 60px; font-size: 1.3em; color: #667eea;">
+                    Gemeinsam machen wir das 4. Schuljahr zu einem tollen Erlebnis! ✨
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="slide-number">
+        <span id="current-slide">1</span> / <span id="total-slides">17</span>
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">◀ Zurück</button>
+        <button onclick="nextSlide()">Weiter ▶</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                event.preventDefault();
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                prevSlide();
+            }
+        });
+
+     // Touch navigation for mobile - VERBESSERT
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+
+document.addEventListener('touchstart', function(event) {
+    touchStartX = event.changedTouches[0].screenX;
+    touchStartY = event.changedTouches[0].screenY;
+}, { passive: true });
+
+document.addEventListener('touchend', function(event) {
+    touchEndX = event.changedTouches[0].screenX;
+    touchEndY = event.changedTouches[0].screenY;
+    handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+    const diffX = touchEndX - touchStartX;
+    const diffY = touchEndY - touchStartY;
+    
+    // Nur horizontales Wischen zählt (kein vertikales Scrollen)
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < -50) {
+            nextSlide();  // Wisch nach links = nächste Folie
+        } else if (diffX > 50) {
+            prevSlide();  // Wisch nach rechts = vorherige Folie
+        }
+    }
+}
+
+// Click-Events für Buttons explizit
+document.addEventListener('DOMContentLoaded', function() {
+    const prevBtn = document.querySelector('.controls button:first-child');
+    const nextBtn = document.querySelector('.controls button:last-child');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            prevSlide();
+        });
+        prevBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            prevSlide();
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            nextSlide();
+        });
+        nextBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            nextSlide();
+        });
+    }
+});
+
+    </script>
+</body>
+</html>
